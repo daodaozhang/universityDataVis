@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title>University Data</title>
+</head>
+<body
+<div id="container"></div>
+
+<div id="chart"></div>
+
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+<script>
+
+// create an empty array, at the end you should have objects in here,
+// one object per university
+univ = [];
+
+// helper that contains the columns
+columns = ["Rank","Score","Institution","City","State","Tuition","In_State_Tuition","Out_of_State_Tuition","Total_Enrollment","Acceptance_Rate"];
+// read the file creating a new object for every line
+// we need to wrap this in a "queue" so that we finish parsing before
+// we try to write everything to the screen
+queue()
+ .defer(d3.csv, "us_news_rankings.csv", function(d){
+    univ.push ({ //push constructed d to array univ
+        Rank: +d.Rank,
+        Score: +d.Score,
+        Institution: d.Institution,
+        City: d.City,
+        State: d.State,
+        Tuition: +d.Tuition,
+        In_State_Tuition: +d.In_State_Tuition,
+        Out_of_State_Tuition: +d.Out_of_State_Tuition,
+        Total_Enrollment: +d.Total_Enrollment,
+        Acceptance_Rate: +d.Acceptance_Rate,
+    });
+ })
+ .await(ready);  // call ready when finished reading
+
+function pullData(tbl,column) {
+     var toReturn = [];
+     for (var i = 0; i < tbl.length; i++) {
+         u = tbl[i];
+         toReturn.push(u[column]);
+     }
+     return toReturn;
+}
+
+function drawIt() {
+	
+	univdata=[]  
+	var validcats = ["Rank","Tuition","Total_Enrollment","Acceptance_Rate"];
+	 
+	console.log("drawIt");
+        
+    // figure out which university is selected, the index will be set
+     // to -1 if none are selected
+    var e = document.getElementById("dropdown");
+    selectedindex = e.options[e.selectedIndex].value - 1;
+    
+    // pull the good data
+    for (var i = 0 ; i < validcats.length ; i++) {
+           
+           //if a university is selected, then read university data into an arrary
+           if (selectedindex!= -1) {
+           		univdata.push(univ[selectedindex][nm]); }
+    }
+    
+    //d3.select("svg").remove();
+    console.log(univdata);
+
+    render(univdata);
+}
+
+ function render(indata){
+ 	  console.log("render");
+      var w=960,h=1000;//960, 1000
+
+      var svg=d3.select("#chart") 
+              .append("svg") 
+              .attr("width",w).attr("height",h); 
+              
+      var text = svg.selectAll("text")
+                        .data(indata)
+                        .enter()
+                        .append("text");
+}
+
+function ready() {
+	var w=960,h=1000;
+	univdata=[];
+	var validcats = ["Rank","Tuition","Total_Enrollment","Acceptance_Rate"];
+	for (var i = 0 ; i < validcats.length ; i++) {
+           var nm = validcats[i];
+           univdata.push([univ[1][nm],univ[10][nm], univ[50][nm],univ[90][nm]]);
+    }
+	console.log(univdata);
+	var svg = d3.select("body")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h);
+            
+	svg.selectAll("circle")  
+   			.data(univdata)
+  			.enter()
+   			.append("circle")  
+   			.attr("cx", function(d){return univdata.indexOf(d)*50+100;})
+   			.attr("cy", function(d){return 400-d*3;})
+   			.attr("r", 6);
+}
+
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>University Data</title>
+<p> <font face="verdana" size=5 color="gray"> University Rankings and Statistics </font></p>
+
+<!-- #ADD_INPUT -->
+<div id="topSection">
+<font face="verdana" size=4 color= "gray"> Search Universities: </font><input type="text" id="search"=></input>
+    <button id="submitter">Add</button>
+    <button onclick="onClearButton()" id="clearButton">Clear</button>
+    <button onclick="onShowAllButton()" id="showAllButton">Show All</button>
+    <div id="output"></div>
+</div>
+
+<div id="numberSelector">
+	<font face="verdana" size=4 color= "gray"><p> Filter Universities: </p></font>
+	<font face="verdana" size=4 color= #3399CC>Rank from <input type="number" id="rankLow" value=0></input> to </font><input type="number" id="rankHigh" value=201></input>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	<font face="verdana" size=4 color= #3399CC>Tuition from <input type="number" id="tuitionLow" value=0></input> to <input type="number" id="tuitionHigh" value=49138></input>USD</font>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+  
+	<font face="verdana" size=4 color= #3399CC>Total Enrollment from <input type="number" id="enrollLow" value=0></input> to <input type="number" id="enrollHigh" value=73378></input></font>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	<font face="verdana" size=4 color= #3399CC>Accept Rate from <input type="number" id="acceptLow" value=0></input>% to <input type="number" id="acceptHigh" value=99></input>%</font>
+ 	&nbsp&nbsp<button id="filterSubmit">Filter</button>
+	
+</div>
+
+<style>
+#topSection {
+ margin-top: 30px;
+}
+#numberSelector {
+ margin-left: 10px;
+}
+#output { color: white; }
+input {
+    border: 5px solid gray; 
+    -webkit-box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 10px rgba(0,0,0,0.1); 
+    -moz-box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 10px rgba(0,0,0,0.1); 
+    box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 10px rgba(0,0,0,0.1); 
+    padding: 5px;
+    background: rgba(255,255,255,0.5);
+    margin: 0 0 5px 0;
+	}
+	
+  button {
+    background-color: #3399CC;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:6px;
+    color: #fff;
+    font-family: 'Oswald';
+    font-size: 20px;
+    text-decoration: none;
+    cursor: poiner;
+     border:none;
+  }
+
+svg {
+  font: 10px sans-serif;
+}
+
+.background path {
+  fill: none;
+  stroke: none;
+  stroke-width: 20px;
+  pointer-events: stroke;
+}
+
+.foreground path {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.axis .title {
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.axis line,
+.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.label {
+  -webkit-transition: fill 125ms linear;
+}
+
+.active .label:not(.inactive) {
+  font-weight: bold;
+}
+
+.label.inactive {
+  fill: #ccc;
+}
+
+.foreground path.inactive {
+  stroke: #ccc;
+  stroke-opacity: .5;
+  stroke-width: 1px;
+}
+
+</style>
+
+<script src="http://d3js.org/d3.v2.min.js"></script>
+<script>
+		
+var data_filter;
+    document.getElementById("submitter").addEventListener("click",function(){
+      var o=document.getElementById("output"),v=document.getElementById("search").value;
+      if(o.textContent!==undefined){
+          o.textContent=v;
+      }else{
+          o.innerText=v;
+      }
+      data_filter = collegeAcceptance;
+      d3.select("svg").remove()
+      getData();
+    });
+		
+	document.getElementById("filterSubmit").addEventListener("click", function(){
+      dataset = [];
+      d3.select("svg").remove()
+      var rlo=document.getElementById("rankLow").value, rhi=document.getElementById("rankHigh").value;
+      if (isNaN(rhi) || isNaN(rlo) || rhi<0 || rlo<0 || rhi>206 || rlo>206) {
+        alert("Input has to be a integer between 0 and 206");}
+      var tlo=document.getElementById("tuitionLow").value, thi=document.getElementById("tuitionHigh").value;
+      console.log("in event listener", thi)
+      if (isNaN(rhi) || isNaN(rlo) || rhi<0 || rlo<0 || rhi>49138 || rlo>49138) {
+        alert("Input has to be a integer between 0 and 49138");}
+      var elo=document.getElementById("enrollLow").value, ehi=document.getElementById("enrollHigh").value;
+      if (isNaN(ehi) || isNaN(elo) || ehi<0 || elo<0 || ehi>73378|| elo>73378) {
+        alert("Input has to be a integer between 0 and 73378");}
+      var tlo=document.getElementById("acceptLow").value, thi=document.getElementById("acceptHigh").value;
+      if (isNaN(thi) || isNaN(tlo) || thi<0 || tlo<0 || thi>99 || tlo>99) {
+        alert("Input has to be a integer between 0 and 99");}
+      data_filter=rankFilter;
+      getData();	
+    });
+			
+		var dataset = [];
+		
+		//clear all lines
+		function onClearButton() {
+			dataset = [];
+
+			document.getElementById("search").value = "";
+
+			d3.select("svg").remove();
+		}
+		
+		//show all universities
+		function onShowAllButton() {
+  				onClearButton();
+          data_filter = (function(){return true;});
+          getData();
+		}
+		
+		//add searched universities
+		function collegeAcceptance(el) {
+			//takes a row from the csv
+			//checks input form, returns true if this row matches the inputs and should be included
+			var name = document.getElementById("search").value;
+			return new RegExp(name, "i").test(el.Institution);
+		}
+		
+		//add rank filter
+		function rankFilter(el){
+			var rLow= parseInt(document.getElementById("rankLow").value), rHigh=parseInt(document.getElementById("rankHigh").value);
+			var tLow= parseInt(document.getElementById("tuitionLow").value), tHigh=parseInt(document.getElementById("tuitionHigh").value);		
+			var eLow= parseInt(document.getElementById("enrollLow").value), eHigh=parseInt(document.getElementById("enrollHigh").value);		
+			var aLow= parseInt(document.getElementById("acceptLow").value), aHigh=parseInt(document.getElementById("acceptHigh").value);		
+      		
+      if(el.Tuition === ""){
+        el.Tuition=0;
+      }
+      if(el.Total_Enrollment === ""){
+        el.Total_Enrollment=0;
+      }
+      if(el.Acceptance_Rate === ""){
+        el.Acceptance_Rate=0;
+      }
+      console.log("in filter", tHigh);
+      var rankIn = el.Rank >= rLow && el.Rank <= rHigh;
+      var tuitionIn = el.Tuition >= tLow && el.Tuition <= tHigh;
+      var enrollIn = el.Total_Enrollment >= eLow && el.Total_Enrollment <= eHigh;
+      var acceptIn = el.Acceptance_Rate >= aLow && el.Acceptance_Rate <= aHigh;
+     	return rankIn && tuitionIn && enrollIn && acceptIn;
+		}
+
+		function buildGraph(rows) {
+			var margin = {top: 90, right: 140, bottom: 20, left: 200};
+			var	width = 1200 - margin.left - margin.right;
+			var height = (rows.length * 1850 / 207) + 200 - margin.top - margin.bottom;
+
+			var dimensions = [
+			  {
+				name: "Institution",
+				scale: d3.scale.ordinal().rangePoints([0, height]),
+				type: String
+			  },
+			  {
+				name: "Rank",
+				scale: d3.scale.linear().range([0, height]),
+				type: Number
+			  },
+			  {
+				name: "Tuition",
+				scale: d3.scale.linear().range([height, 0]),
+				type: Number
+			  },
+			  {
+				name: "Total_Enrollment",
+				scale: d3.scale.linear().range([height, 0]),
+				type: Number
+			  },
+			  {
+				name: "Acceptance_Rate",
+				scale: d3.scale.linear().range([height, 0]),
+				type: Number
+			  }
+			];
+
+			var x = d3.scale.ordinal() //xaxis
+				.domain(dimensions.map(function(d) { return d.name; }))
+				.rangePoints([0, width]);
+
+			var line = d3.svg.line()
+				.defined(function(d) { return !isNaN(d[1]); });
+
+			var yAxis = d3.svg.axis()  //yaxis
+				.orient("left");
+
+			var svg = d3.select("body").append("svg")
+				.attr("width", width + margin.left + margin.right)
+				.attr("height", height + margin.top + margin.bottom)
+			  .append("g")
+				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+			var dimension = svg.selectAll(".dimension")
+				.data(dimensions)
+			  .enter().append("g")
+				.attr("class", "dimension")
+				.attr("transform", function(d) { return "translate(" + x(d.name) + ")"; });
+
+				var data = dataset;
+
+				dimensions.forEach(function(dimension) {
+					dimension.scale.domain(dimension.type === Number
+					? d3.extent(data, function(d) { return +d[dimension.name]; })
+					: data.map(function(d) { return d[dimension.name]; }).sort());
+				});
+
+			  svg.append("g")
+				  .attr("class", "background")
+				.selectAll("path")
+				  .data(data)
+				.enter().append("path")
+				  .attr("d", draw);
+
+			  svg.append("g")
+				  .attr("class", "foreground")
+				.selectAll("path")
+				  .data(data)
+				.enter().append("path")
+				  .attr("d", draw);
+
+			  dimension.append("g")
+				  .attr("class", "axis")
+				  .each(function(d) { d3.select(this).call(yAxis.scale(d.scale)); })
+				.append("text")
+				  .attr("class", "title")
+				  .attr("text-anchor", "middle")
+				  .attr("y", -9)
+				  .text(function(d) { return d.name; });
+														
+			  // Rebind the axis data to simplify mouseover.
+			  svg.select(".axis").selectAll("text:not(.title)")
+				  .attr("class", "label")
+				  .data(data, function(d) { return d.Institution || d; });   
+				  
+			  var projection = svg.selectAll(".axis text,.background path,.foreground path")
+				  .on("mouseover", mouseover)
+				  .on("mouseout", mouseout);
+
+			  function mouseover(d) {
+				svg.classed("active", true);
+				projection.classed("inactive", function(p) { return p !== d; });
+				projection.filter(function(p) { return p === d; }).each(moveToFront);
+			  }
+
+			  function mouseout(d) {
+				svg.classed("active", false);
+				projection.classed("inactive", false);
+			  }
+
+			  function moveToFront() {
+				this.parentNode.appendChild(this);
+			  }
+	
+			function draw(d) {
+			  return line(dimensions.map(function(dimension) {
+				return [x(dimension.name), dimension.scale(d[dimension.name])];
+			  }));
+			}
+		}
+		function getData() { //get searched university data
+			d3.csv("us_news_rankings.csv", function(data) {
+				
+				//add data
+				dataset = dataset.concat(data.filter(data_filter));
+				// console.log("dataset:");
+				// for(var i = 0; i < dataset.length; i++)
+				//  	console.log(dataset[i]);
+
+					//remove duplicates
+					var unique = [];
+					function uniqueHas(elem) {
+						for(var i = 0; i < unique.length; i++) {
+							if(unique[i].Institution == elem.Institution) {
+								return true;
+						}
+					}
+					return false;
+				}
+				for(var i = 0; i < dataset.length; i++) {
+					if(!uniqueHas(dataset[i]))
+						unique.push(dataset[i]);
+				}
+				dataset = unique;
+			
+				//draw
+				buildGraph(dataset);
+			});
+		}
+
+		
+
+
+</script>
+</body>
+
+</html>

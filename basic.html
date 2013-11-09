@@ -1,0 +1,255 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title>Part 3</title>
+<style type="text/css">
+			
+			.axis path,
+			.axis line {
+				fill: none;
+				stroke: black;
+				shape-rendering: crispEdges;
+			}
+			
+			.axis text {
+				font-family: sans-serif;
+				font-size: 11px;
+			}
+
+		</style>
+</head>
+<body>
+<FORM>
+Include:
+<BR>
+   <INPUT TYPE="checkbox" name="toshow" value="academic_reputation" checked onclick="drawIt();"/> Rank
+   <INPUT TYPE="checkbox" name="toshow" value="employer_reputation" checked onclick="drawIt();"/> Tuition
+  
+<BR>
+   <INPUT TYPE="checkbox" name="toshow" value="international_faculty" checked onclick="drawIt();"/> Total Enrollment
+   <INPUT TYPE="checkbox" name="toshow" value="international_students" checked onclick="drawIt();"/> Acceptance Rate
+  
+| Find:
+</FORM>
+<div id="chart"></div>
+
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+<script>
+
+// create an empty array
+var univ = [];
+
+numerical_columns = ["Rank","Tuition","Total_Enrollment","Acceptance_Rate"];
+
+// helper that contains the columns
+columns = ["Rank","Score","Institution","City","State","Tuition","In_State_Tuition","Out_of_State_Tuition","Total_Enrollment","Acceptance_Rate"];
+// read the file creating a new object for every line
+// we need to wrap this in a "queue" so that we finish parsing before
+// we try to write everything to the screen
+queue()
+ .defer(d3.csv, "us_news_rankings.csv", function(d){
+    univ.push ({ //push constructed d to array univ
+        Rank: +d.Rank,
+        Score: +d.Score,
+        Institution: d.Institution,
+        City: d.City,
+        State: d.State,
+        Tuition: +d.Tuition,
+        In_State_Tuition: +d.In_State_Tuition,
+        Out_of_State_Tuition: +d.Out_of_State_Tuition,
+        Total_Enrollment: +d.Total_Enrollement,
+        Acceptance_Rate: +d.Acceptance_Rate,
+    });
+ }).await(ready);
+
+/*
+function calcQuartile(cname,inputArray) {
+// copy from problem 2
+ 	sorted_arr=inputArray.sort(function(a,b){return a-b});
+     return({name:cname,
+             p0:sorted_arr[0],
+             p25:sorted_arr[Math.ceil(sorted_arr.length/4)-1],
+             p50:sorted_arr[Math.ceil(sorted_arr.length/2)-1],
+             p75:sorted_arr[Math.ceil(sorted_arr.length/4*3)-1],
+             p100:sorted_arr[sorted_arr.length-1]}); 
+} */
+
+function pullData(tbl,column) {
+     var toReturn = [];
+     for (var i = 0; i < tbl.length; i++) {
+         u = tbl[i];
+         toReturn.push(u[column]);
+     }
+     return toReturn;
+}
+
+ //var boxplotdata = [];
+ var univdata= [];
+ 
+function drawIt() {
+	
+   // figure out what's checked
+    var selected = document.forms[0]["toshow"];
+    var validcats = [];
+    for (i = 0 ; i < selected.length ; i++) {
+        if (selected[i].checked) {
+            validcats.push(selected[i].value);
+        }
+    }
+    console.log("drawIt");
+
+    // filter our sourcedata so we're only working with checked
+    //categories
+
+    // empty the data array
+    //boxplotdata = []
+	univdata=[]   
+
+     // figure out which university is selected, the index will be set
+     // to -1 if none are selected
+    var e = document.getElementById("dropdown");
+    selectedindex = e.options[e.selectedIndex].value - 1;
+    
+    // pull the good data
+    for (var i = 0 ; i < validcats.length ; i++) {
+           var nm = validcats[i];
+           boxplotdata.push(calcQuartile(nm,pullData(univ,nm)));
+           //if a university is selected, then read university data into an arrary
+           if (selectedindex!= -1) {
+           		univdata.push(univ[selectedindex][nm]); }
+    }
+   
+     // ADD CODE HERE TO REFRESH THE VIS TO ONLY INCLUDE THE SELECTED
+     // BOX PLOTS
+     
+     //clean screen first
+     d3.select("svg").remove();
+     
+     //re-draw chart with updated data
+     render(univdata);      
+
+	//draw bright blue dots and show numbers to indicate selected school's value
+    var univline = d3.select("svg").selectAll("univline").data(univdata).enter()
+    	univline.append("text")
+    	    .attr("x", function(d){return univdata.indexOf(d)*50+90;})
+            .attr("y", 90)
+            .text(function(d){return d;})
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "12px")
+            .attr("fill", "#33CCFF");
+        univline.append("circle")
+        		.attr("cx", function(d){return univdata.indexOf(d)*50+100;})
+                .attr("cy", function(d){return 400-d*3; })
+                .attr("r", 6)
+                .style("fill", "#33CCFF");
+    
+}
+
+ //render function is used to draw chart
+ function render(indata){
+ 	  console.log("render");
+      var w=960,h=1000;//960, 1000
+
+      var svg=d3.select("#chart") 
+              .append("svg") 
+              .attr("width",w).attr("height",h); 
+
+       // CREATE THE BOX PLOT HERE
+       bars = svg.selectAll("g")//g
+           .data(indata)
+           .enter()
+           .append("g")
+/*
+           //when hover over a bar, highlight bar in red and show quartiles in a toolpit
+           .on("mouseover", function(d) { var bar = d3.select(this);
+            var line = "Quartiles: 0%: "+d.p0+", 25%: "+d.p25+", 50%: "+d.p50+", 75%: "+d.p75+", 100%: "+d.p100;
+             bar.select("rect").style("fill", "red").append("svg:title").text(function(d){return line;});
+             bar.select("line").style("stroke", "red").append("svg:title").text(function(d){return line;});
+             })
+           .on("mouseout", function() { var bar = d3.select(this);
+           bar.select("rect").style("fill", "black");
+           bar.select("line").style("stroke","black");
+           })
+      
+      // MAKE A THIN LINE from the 0th to 100th percentile
+     //reference: https://www.dashingd3js.com/svg-group-element-and-d3js
+
+    var lines=bars.append("line")
+        .attr("x1", function(d){return indata.indexOf(d)*50+100;})
+        .attr("y1", function(d){return (h-d.p0*3)-600;})
+        .attr("x2", function(d){return indata.indexOf(d)*50+100;})
+        .attr("y2", function(d){return (h-d.p100*3)-600;})
+        .attr("stroke-width", 3)
+        .attr("stroke", "black");
+      
+      // MAKE A THICK BOX from the 25th to 75th
+     var boxes=bars.append("rect")
+        .attr("x", function(d){return indata.indexOf(d)*50+90;})
+        .attr("y", function(d){return (h-d.p75*3-600);})
+        .attr("height", function(d){return ((d.p75-d.p25)*3);})
+        .attr("width", 20)
+        .attr("fill", "black");
+      
+      // MAKE A THIN WHITE BOX at the 50th
+     var wline=bars.append("rect")
+            .attr("x", function(d){return indata.indexOf(d)*50+90;})
+            .attr("y", function(d){return (h-d.p50*3-600);})
+            .attr("height", 3)
+            .attr("width", 20)
+            .attr("fill", "white"); */
+            
+      //  ADD TEXT ANNOTATION BELOW EACH BAR
+      //reference: http://stackoverflow.com/questions/11252753/rotate-x-axis-text-in-d3/16863559#16863559
+
+    var texts= bars.append("text")
+            .attr("x", function(d){return indata.indexOf(d)*50+90;})
+            .attr("y", h-600)
+            .text(function(d){return d.name;})
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "12px")
+            .attr("fill", "green")
+            .attr("transform", function(d) {
+                return "rotate(90 "+(indata.indexOf(d)*50+90).toString()+","+(h-600).toString()+")"; });
+     
+     //  ADD THE AXIS
+    var yScale = d3.scale.linear().domain([100, 0]).range([h-950, h-650]);
+
+     var yAxis = d3.svg.axis()
+                       .scale(yScale)
+                       .orient("left")
+                        .ticks(10);
+        //Create Y axis
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(50, 50)")
+            .call(yAxis);
+      }
+
+function ready() {
+
+      // this will fill in the data array for you as long as
+      // univ gets filled in correctly and calcQuartile is right
+      for (var i = 0 ; i < numerical_columns.length ; i++) {
+           var nm = numerical_columns[i];
+           boxplotdata.push(calcQuartile(nm,pullData(univ,nm)));
+
+      }
+      console.log("ready");
+     
+      render(univdata);
+
+     // THE FOLLOWING CODE WILL AUTOMATICALLY POPULATE THE DROPDOWN BOX
+     var opt = d3.select("form").append("select");
+     opt.on("change", drawIt)
+     opt.attr("id","dropdown")
+     insts = pullData(univ,"Institution")
+     insts.unshift("");
+     opt.selectAll("option").data(insts).enter().append("option").attr("value",function(d,i) {return i;}).text(function(d) {return d;})
+
+}
+
+</script>
+
+</body>
+</html>
+

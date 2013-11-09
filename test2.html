@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>University Data</title>
+
+<input type="text" id="search"=></input>
+    <button id="submitter">Search</button>
+    <div id="output"></div>
+    
+    
+<style>
+
+ input {
+    border: 5px solid light gray; 
+    -webkit-box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1); 
+    -moz-box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1); 
+    box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1); 
+    padding: 10px;
+    background: rgba(255,255,255,0.5);
+    margin: 0 0 10px 0;
+	}
+  #submitter {
+    background-color: #3366CC;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:6px;
+    color: #fff;
+    font-family: 'Oswald';
+    font-size: 20px;
+    text-decoration: none;
+    cursor: poiner;
+     border:none;
+  }
+
+  #submitter:hover {
+    border: none;
+    background:#3399CC;
+    box-shadow: 0px 0px 1px #777;
+
+  }
+svg {
+  font: 10px sans-serif;
+}
+
+.background path {
+  fill: none;
+  stroke: none;
+  stroke-width: 20px;
+  pointer-events: stroke;
+}
+
+.foreground path {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.axis .title {
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.axis line,
+.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.label {
+  -webkit-transition: fill 125ms linear;
+}
+
+.active .label:not(.inactive) {
+  font-weight: bold;
+}
+
+.label.inactive {
+  fill: #ccc;
+}
+
+.foreground path.inactive {
+  stroke: #ccc;
+  stroke-opacity: .5;
+  stroke-width: 1px;
+}
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v2.min.js"></script>
+<script>
+		
+		var didClickIt = false;
+        document.getElementById("submitter").addEventListener("click",function(){
+            didClickIt = true;
+        });
+
+    	setInterval(function(){
+            if( didClickIt ) {
+                didClickIt = false;
+                var o=document.getElementById("output"),v=document.getElementById("search").value;
+                if(o.textContent!==undefined){
+                    o.textContent=v;
+                }else{
+                    o.innerText=v;
+                }
+
+				//console.log(document.getElementById("search").value);
+
+				d3.select("svg").remove()
+				getData();
+            }
+        },500);
+        
+		var dataset = [];
+		
+		function collegeAcceptance(el) {
+			var name = document.getElementById("search").value;
+			var college = new RegExp(name, "i").test(el.Institution);
+			return college;
+		}
+		function buildGraph(rows) {
+			var margin = {top: 90, right: 40, bottom: 20, left: 200};
+			var	width = 1400 - margin.left - margin.right;
+			var height = (rows.length * 1850 / 207) + 200 - margin.top - margin.bottom;
+
+			var dimensions = [
+			  {
+				name: "Institution",
+				scale: d3.scale.ordinal().rangePoints([0, height]),
+				type: String
+			  },
+			  {
+				name: "Rank",
+				scale: d3.scale.linear().range([0, height]),
+				type: Number
+			  },
+			  {
+				name: "Tuition",
+				scale: d3.scale.linear().range([height, 0]),
+				type: Number
+			  },
+			  {
+				name: "Total_Enrollment",
+				scale: d3.scale.linear().range([height, 0]),
+				type: Number
+			  },
+			  {
+				name: "Acceptance_Rate",
+				scale: d3.scale.linear().range([height, 0]),
+				type: Number
+			  }
+			];
+
+			var x = d3.scale.ordinal()//xaxis
+				.domain(dimensions.map(function(d) { return d.name; }))
+				.rangePoints([0, width]);
+
+			var line = d3.svg.line()
+				.defined(function(d) { return !isNaN(d[1]); });
+
+			var yAxis = d3.svg.axis()  //yaxis
+				.orient("left");
+
+			var svg = d3.select("body").append("svg")
+				.attr("width", width + margin.left + margin.right)
+				.attr("height", height + margin.top + margin.bottom)
+			  .append("g")
+				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+			var dimension = svg.selectAll(".dimension")
+				.data(dimensions)
+			  .enter().append("g")
+				.attr("class", "dimension")
+				.attr("transform", function(d) { return "translate(" + x(d.name) + ")"; });
+
+			var text = svg.append("text")
+						.attr("x", 520)
+						.attr("y", -80)
+						.attr("dy", ".35em")
+						.attr("text-anchor", "middle")
+						.style("font", "300 18px Helvetica Neue")
+						.text("University Rankings and Statistics");
+
+			d3.csv("us_news_rankings.csv", function(data) {
+				data = data.filter(collegeAcceptance);
+				
+				dimensions.forEach(function(dimension) {
+					dimension.scale.domain(dimension.type === Number
+					? d3.extent(data, function(d) { return +d[dimension.name]; })
+					: data.map(function(d) { return d[dimension.name]; }).sort());
+				});
+
+			  background = svg.append("g")
+				  .attr("class", "background")
+				.selectAll("path")
+				  .data(data)
+				.enter().append("path")
+				  .attr("d", draw);
+
+			  foreground = svg.append("g")
+				  .attr("class", "foreground")
+				.selectAll("path")
+				  .data(data)
+				.enter().append("path")
+				  .attr("d", draw);
+
+			  dimension.append("g")
+				  .attr("class", "axis")
+				  .each(function(d) { d3.select(this).call(yAxis.scale(d.scale)); })
+				.append("text")
+				  .attr("class", "title")
+				  .attr("text-anchor", "middle")
+				  .attr("y", -9)
+				  .text(function(d) { return d.name; })
+	
+
+
+			  // Rebind the axis data to simplify mouseover.
+			  svg.select(".axis").selectAll("text:not(.title)")
+				  .attr("class", "label")
+				  .data(data, function(d) { return d.Institution || d; });   
+				  
+			  var projection = svg.selectAll(".axis text,.background path,.foreground path")
+				  .on("mouseover", mouseover)
+				  .on("mouseout", mouseout);
+
+			  function mouseover(d) {
+				svg.classed("active", true);
+				projection.classed("inactive", function(p) { return p !== d; });
+				projection.filter(function(p) { return p === d; }).each(moveToFront);
+			  }
+
+			  function mouseout(d) {
+				svg.classed("active", false);
+				projection.classed("inactive", false);
+			  }
+
+			  function moveToFront() {
+				this.parentNode.appendChild(this);
+			  }
+			});
+
+
+
+			function draw(d) {
+			  return line(dimensions.map(function(dimension) {
+				return [x(dimension.name), dimension.scale(d[dimension.name])];
+			  }));
+			}
+		}
+		
+		
+		function getData() {
+			d3.csv("us_news_rankings.csv", function(data) {
+				dataset = data.filter(collegeAcceptance);
+				buildGraph(dataset);
+				//error message if college not found
+				if (dataset.length === 0) { 
+					alert("College Not Found! Make sure you enter the right name."); }
+			});	
+		}
+		
+		getData(); //go
+
+</script>
+
+</body>
+</html>

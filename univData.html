@@ -5,7 +5,7 @@
 
 <!-- #ADD_INPUT -->
 <div id="topSection">
-<input type="text" id="search"=></input>
+<font face="verdana" size=4 color= "gray"> Search Universities: </font><input type="text" id="search"=></input>
     <button id="submitter">Add</button>
     <button onclick="onClearButton()" id="clearButton">Clear</button>
     <button onclick="onShowAllButton()" id="showAllButton">Show All</button>
@@ -13,17 +13,24 @@
 </div>
 
 <div id="numberSelector">
-	<font face="verdana" size=4 color= #3399CC> Choose Universities rank from <input type="number" id="rankLow"=></input> to </font><input type="number" id="rankHigh"=></input>
-	<button id="rankSubmit">Filter</button>
+	<font face="verdana" size=4 color= "gray"><p> Filter Universities: </p></font>
+	<font face="verdana" size=4 color= #3399CC>Rank from <input type="number" id="rankLow" value=0></input> to </font><input type="number" id="rankHigh" value=201></input>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	<font face="verdana" size=4 color= #3399CC>Tuition from <input type="number" id="tuitionLow" value=0></input> to <input type="number" id="tuitionHigh" value=49138></input>USD</font>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+  
+	<font face="verdana" size=4 color= #3399CC>Total Enrollment from <input type="number" id="enrollLow" value=0></input> to <input type="number" id="enrollHigh" value=73378></input></font>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	<font face="verdana" size=4 color= #3399CC>Accept Rate from <input type="number" id="acceptLow" value=0></input>% to <input type="number" id="acceptHigh" value=99></input>%</font>
+ 	&nbsp&nbsp<button id="filterSubmit">Filter</button>
+	
 </div>
 
 <style>
 #topSection {
  margin-top: 30px;
 }
-#output {
-	color: white;
+#numberSelector {
+ margin-left: 10px;
 }
+#output { color: white; }
 input {
     border: 5px solid gray; 
     -webkit-box-shadow: 
@@ -102,43 +109,43 @@ svg {
 }
 
 </style>
-<body>
+
 <script src="http://d3js.org/d3.v2.min.js"></script>
 <script>
 		
-		var didClickIt = false; //search button
-        document.getElementById("submitter").addEventListener("click",function(){
-            didClickIt = true;
-        });
+var data_filter;
+    document.getElementById("submitter").addEventListener("click",function(){
+      var o=document.getElementById("output"),v=document.getElementById("search").value;
+      if(o.textContent!==undefined){
+          o.textContent=v;
+      }else{
+          o.innerText=v;
+      }
+      data_filter = collegeAcceptance;
+      d3.select("svg").remove()
+      getData();
+    });
 		
-		var rankSelect = false; //rank filter button
-		document.getElementById("rankSubmit").addEventListener("click", function(){
-			rankSelect = true; });
+	document.getElementById("filterSubmit").addEventListener("click", function(){
+      dataset = [];
+      d3.select("svg").remove()
+      var rlo=document.getElementById("rankLow").value, rhi=document.getElementById("rankHigh").value;
+      if (isNaN(rhi) || isNaN(rlo) || rhi<0 || rlo<0 || rhi>206 || rlo>206) {
+        alert("Input has to be a integer between 0 and 206");}
+      var tlo=document.getElementById("tuitionLow").value, thi=document.getElementById("tuitionHigh").value;
+      console.log("in event listener", thi)
+      if (isNaN(rhi) || isNaN(rlo) || rhi<0 || rlo<0 || rhi>49138 || rlo>49138) {
+        alert("Input has to be a integer between 0 and 49138");}
+      var elo=document.getElementById("enrollLow").value, ehi=document.getElementById("enrollHigh").value;
+      if (isNaN(ehi) || isNaN(elo) || ehi<0 || elo<0 || ehi>73378|| elo>73378) {
+        alert("Input has to be a integer between 0 and 73378");}
+      var tlo=document.getElementById("acceptLow").value, thi=document.getElementById("acceptHigh").value;
+      if (isNaN(thi) || isNaN(tlo) || thi<0 || tlo<0 || thi>99 || tlo>99) {
+        alert("Input has to be a integer between 0 and 99");}
+      data_filter=rankFilter;
+      getData();	
+    });
 			
-    	setInterval(function(){
-            if( didClickIt ) { //if click the search button
-                didClickIt = false;
-                var o=document.getElementById("output"),v=document.getElementById("search").value;
-                if(o.textContent!==undefined){
-                    o.textContent=v;
-                }else{
-                    o.innerText=v;
-                }
-
-				d3.select("svg").remove()
-				getData();
-            }
-            
-            if( rankSelect ) {  //if click the rank filter button
-            	rankSelect = false;
-            	var lo=document.getElementById("rankLow").value, hi=document.getElementById("rankHigh").value;
-            	if (isNaN(hi) || isNaN(lo) || hi<0 || lo<0 || hi>206 || lo>206) {
-            		alert("Input has to be a integer between 0 and 206");}
-            	d3.select("svg").remove()
-				//getData();	
-            	}
-        },500);
-        
 		var dataset = [];
 		
 		//clear all lines
@@ -153,7 +160,8 @@ svg {
 		//show all universities
 		function onShowAllButton() {
   				onClearButton();
-  				didClickIt = true;
+          data_filter = (function(){return true;});
+          getData();
 		}
 		
 		//add searched universities
@@ -166,9 +174,26 @@ svg {
 		
 		//add rank filter
 		function rankFilter(el){
-			var low=document.getElementById("rankLow").value, high=document.getElementById("rankHigh").value;
-			console.log([low,high]);
-			return [low, high];
+			var rLow= parseInt(document.getElementById("rankLow").value), rHigh=parseInt(document.getElementById("rankHigh").value);
+			var tLow= parseInt(document.getElementById("tuitionLow").value), tHigh=parseInt(document.getElementById("tuitionHigh").value);		
+			var eLow= parseInt(document.getElementById("enrollLow").value), eHigh=parseInt(document.getElementById("enrollHigh").value);		
+			var aLow= parseInt(document.getElementById("acceptLow").value), aHigh=parseInt(document.getElementById("acceptHigh").value);		
+      		
+      if(el.Tuition === ""){
+        el.Tuition=0;
+      }
+      if(el.Total_Enrollment === ""){
+        el.Total_Enrollment=0;
+      }
+      if(el.Acceptance_Rate === ""){
+        el.Acceptance_Rate=0;
+      }
+      console.log("in filter", tHigh);
+      var rankIn = el.Rank >= rLow && el.Rank <= rHigh;
+      var tuitionIn = el.Tuition >= tLow && el.Tuition <= tHigh;
+      var enrollIn = el.Total_Enrollment >= eLow && el.Total_Enrollment <= eHigh;
+      var acceptIn = el.Acceptance_Rate >= aLow && el.Acceptance_Rate <= aHigh;
+     	return rankIn && tuitionIn && enrollIn && acceptIn;
 		}
 
 		function buildGraph(rows) {
@@ -203,11 +228,6 @@ svg {
 				type: Number
 			  }
 			];
-			
-			/*d3.selectAll("svg").append("text")
-					.attr("x", 50)
-					.attr("y", height)
-					.text("Selected Universities:"); */
 
 			var x = d3.scale.ordinal() //xaxis
 				.domain(dimensions.map(function(d) { return d.name; }))
@@ -230,14 +250,6 @@ svg {
 			  .enter().append("g")
 				.attr("class", "dimension")
 				.attr("transform", function(d) { return "translate(" + x(d.name) + ")"; });
-
-			/*var text = svg.append("text")
-						.attr("x", width/2-50)
-						.attr("y", -80)
-						.attr("dy", ".35em")
-						.attr("text-anchor", "middle")
-						.style("font", "300 18px Helvetica Neue")
-						.text("University Rankings and Statistics");*/
 
 				var data = dataset;
 
@@ -304,10 +316,10 @@ svg {
 			d3.csv("us_news_rankings.csv", function(data) {
 				
 				//add data
-				dataset = dataset.concat(data.filter(collegeAcceptance));
-				console.log("dataset:");
-				for(var i = 0; i < dataset.length; i++)
-					console.log(dataset[i]);
+				dataset = dataset.concat(data.filter(data_filter));
+				// console.log("dataset:");
+				// for(var i = 0; i < dataset.length; i++)
+				//  	console.log(dataset[i]);
 
 					//remove duplicates
 					var unique = [];
