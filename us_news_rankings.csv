@@ -1,0 +1,207 @@
+Rank,Score,Institution,City,State,Tuition,In_State_Tuition,Out_of_State_Tuition,Total_Enrollment,Acceptance_Rate
+1,100,Princeton University,Princeton,NJ,40170,,,8010,7.9
+2,99,Harvard University,Cambridge,MA,42292,,,19726,6.1
+3,97,Yale University,New Haven,CT,44000,,,11906,7.1
+4,95,Columbia University,New York,NY,49138,,,23168,7.4
+5,94,Stanford University,Stanford,CA,43245,,,18217,6.6
+5,94,University of Chicago,Chicago,IL,46386,,,12508,13.2
+7,92,Duke University,Durham,NC,45476,,,15386,13.4
+7,92,Massachusetts Institute of Technology,Cambridge,MA,43498,,,11189,9.0
+7,92,University of Pennsylvania,Philadelphia,PA,45890,,,21339,12.6
+10,91,California Institute of Technology,Pasadena,CA,41538,,,2243,11.8
+10,91,Dartmouth College,Hanover,NH,46752,,,6277,9.8
+12,89,Johns Hopkins University,Baltimore,MD,45470,,,21001,17.7
+12,89,Northwestern University,Evanston,IL,45527,,,20439,15.3
+14,87,Brown University,Providence,RI,45612,,,8885,9.6
+14,87,Washington University in St. Louis,St. Louis,MO,44841,,,13952,17.9
+16,85,Cornell University,Ithaca,NY,45359,,,21424,16.6
+17,84,Vanderbilt University,Nashville,TN,42978,,,12710,14.2
+18,83,Rice University,Houston,TX,38941,,,6484,16.7
+18,83,University of Notre Dame,Notre Dame,IN,44605,,,12126,23.3
+20,79,Emory University,Atlanta,GA,44008,,,14236,26.3
+20,79,Georgetown University,Washington,DC,44805,,,17357,17.0
+20,79,University of California–​Berkeley,Berkeley,CA,,13836,25056,35899,18.0
+23,76,Carnegie Mellon University,Pittsburgh,PA,46962,,,12569,27.8
+23,76,University of California–​Los Angeles,Los Angeles,CA,,12696,35574,41341,22.0
+23,76,University of Southern California,Los Angeles,CA,46298,,,39958,19.9
+23,76,University of Virginia,Charlottesville,VA,,12458,39844,23907,29.6
+23,76,Wake Forest University,Winston-Salem,NC,44742,,,7432,34.0
+28,74,Tufts University,Medford,MA,46598,,,10837,21.4
+28,74,University of Michigan–​Ann Arbor,Ann Arbor,MI,,13819,40496,43426,36.6
+30,72,University of North Carolina–​Chapel Hill,Chapel Hill,NC,,8340,30122,29278,27.6
+31,70,Boston College,Chestnut Hill,MA,45622,,,13783,28.8
+32,69,Brandeis University,Waltham,MA,46106,,,5808,39.1
+32,69,College of William and Mary,Williamsburg,VA,,15464,37852,8258,32.2
+32,69,New York University,New York,NY,44848,,,44516,35.0
+32,69,University of Rochester,Rochester,NY,45372,,,10510,35.3
+36,67,Georgia Institute of Technology,Atlanta,GA,,10650,29954,21557,54.9
+37,66,Case Western Reserve University,Cleveland,OH,41800,,,10026,54.3
+37,66,Pennsylvania State University–​University Park,University Park,PA,,16992,29566,45783,54.2
+39,65,University of California–​Davis,Davis,CA,,13896,36774,32354,45.7
+39,65,University of California–​San Diego,La Jolla,CA,,13234,36112,28294,37.8
+41,64,Boston University,Boston,MA,44910,,,32603,45.6
+41,64,Lehigh University,Bethlehem,PA,43520,,,7080,32.6
+41,64,Rensselaer Polytechnic Institute,Troy,NY,46269,,,6999,43.6
+41,64,University of California–​Santa Barbara,Santa Barbara,CA,,13746,36624,21927,44.0
+41,64,University of Illinois–​Urbana-​Champaign,Champaign,IL,,15258,29640,44520,63.3
+41,64,University of Wisconsin–​Madison,Madison,WI,,10403,26653,42820,54.6
+47,63,University of Miami,Coral Gables,FL,42852,,,16172,39.7
+47,63,Yeshiva University,New York,NY,37600,,,6753,84.0
+49,62,Northeastern University,Boston,MA,41686,,,20447,31.9
+49,62,University of California–​Irvine,Irvine,CA,,14688,37566,27479,42.4
+49,62,University of Florida,Gainesville,FL,,6263,28541,49913,44.1
+52,61,George Washington University,Washington,DC,47343,,,25653,33.1
+52,61,Ohio State University–​Columbus,Columbus,OH,,10037,25757,56387,64.0
+52,61,Tulane University,New Orleans,LA,46930,,,13486,27.3
+52,61,University of Texas–​Austin,Austin,TX,,9790,33824,52186,46.8
+52,61,University of Washington,Seattle,WA,,12383,29938,42568,59.2
+57,60,Fordham University,New York,NY,43577,,,15170,42.9
+57,60,Pepperdine University,Malibu,CA,44902,,,7319,38.5
+57,60,University of Connecticut,Storrs,CT,,12022,30970,25483,44.7
+60,59,Southern Methodist University,Dallas,TX,43800,,,10893,53.8
+60,59,University of Georgia,Athens,GA,,10262,28472,34519,56.1
+62,58,Brigham Young University–​Provo,Provo,UT,4850,,,34409,54.9
+62,58,Clemson University,Clemson,SC,,13382,30816,20768,57.9
+62,58,Syracuse University,Syracuse,NY,40458,,,21029,51.3
+62,58,University of Maryland–​College Park,College Park,MD,,9162,28348,37197,46.8
+62,58,University of Pittsburgh,Pittsburgh,PA,,17100,27106,28769,56.1
+62,58,Worcester Polytechnic Institute,Worcester,MA,42778,,,5957,52.6
+68,57,Purdue University–​West Lafayette,West Lafayette,IN,,9992,28794,39256,61.3
+69,56,"Rutgers, the State University of New Jersey–​New Brunswick",Piscataway,NJ,,13499,27523,40434,60.9
+69,56,Texas A&M; University–​College Station,College Station,TX,,8506,25126,50227,67.1
+69,56,University of Minnesota–​Twin Cities,Minneapolis,MN,,13555,19805,51853,49.5
+69,56,Virginia Tech,Blacksburg,VA,,10930,25320,31087,70.4
+73,54,Michigan State University,East Lansing,MI,,12863,33750,48906,70.6
+73,54,University of Iowa,Iowa City,IA,,8061,26931,30119,78.4
+75,53,American University,Washington,DC,40649,,,12904,44.2
+75,53,Baylor University,Waco,TX,35972,,,15364,60.7
+75,53,Clark University,Worcester,MA,39550,,,3503,70.1
+75,53,Indiana University–​Bloomington,Bloomington,IN,,10209,32350,42133,74.4
+75,53,Marquette University,Milwaukee,WI,34640,,,11749,55.2
+75,53,Miami University–​Oxford,Oxford,OH,,13799,29589,17683,72.8
+75,53,University of Delaware,Newark,DE,,12112,29932,21081,56.6
+82,52,Stevens Institute of Technology,Hoboken,NJ,43561,,,5649,42.7
+82,52,Stony Brook University–​SUNY,Stony Brook,NY,,7984,19924,24149,40.1
+82,52,Texas Christian University,Fort Worth,TX,36590,,,9727,40.9
+82,52,University of Vermont,Burlington,VT,,15718,36646,13097,76.7
+86,51,SUNY College of Environmental Science and Forestry,Syracuse,NY,,6995,16445,2401,50.7
+86,51,University of Alabama,Tuscaloosa,AL,,9200,22950,33503,53.1
+86,51,University of California–​Santa Cruz,Santa Cruz,CA,,13416,36294,17404,60.9
+86,51,University of Colorado–​Boulder,Boulder,CO,,10240,32008,31725,83.6
+86,51,University of Tulsa,Tulsa,OK,33702,,,4326,40.7
+91,50,Auburn University,Auburn University,AL,,9852,26364,25134,77.2
+91,50,Colorado School of Mines,Golden,CO,,16485,32415,5632,37.4
+91,50,Florida State University,Tallahassee,FL,,6537,21703,40695,53.7
+91,50,University of Denver,Denver,CO,40707,,,11656,67.6
+91,50,University of Massachusetts–​Amherst,Amherst,MA,,13258,27974,28236,62.6
+91,50,University of San Diego,San Diego,CA,41392,,,8105,42.6
+97,49,Binghamton University–​SUNY,Binghamton,NY,,8144,18464,15308,42.9
+97,49,Drexel University,Philadelphia,PA,37505,,,18067,74.9
+97,49,University of Missouri,Columbia,MO,,9415,23764,34748,81.5
+97,49,University of New Hampshire,Durham,NH,,16496,29216,15301,77.9
+101,48,Iowa State University,Ames,IA,,7726,20278,30748,82.5
+101,48,Loyola University Chicago,Chicago,IL,35503,,,15720,81.2
+101,48,North Carolina State University–​Raleigh,Raleigh,NC,,8206,21661,34340,49.6
+101,48,St. Louis University,St. Louis,MO,36726,,,13981,63.7
+101,48,University of Kansas,Lawrence,KS,,10107,24873,27135,92.3
+101,48,University of Nebraska–​Lincoln,Lincoln,NE,,8068,20968,24207,64.4
+101,48,University of Oklahoma,Norman,OK,,7341,19530,31086,79.1
+101,48,University of Tennessee,Knoxville,TN,,9684,27874,29833,67.3
+109,47,Illinois Institute of Technology,Chicago,IL,39842,,,7683,55.0
+109,47,University at Buffalo–​SUNY,Buffalo,NY,,7989,18609,28952,56.9
+109,47,University of Oregon,Eugene,OR,,9763,29788,24518,74.2
+112,46,University of California–​Riverside,Riverside,CA,,12960,35838,21005,62.7
+112,46,University of Dayton,Dayton,OH,35800,,,11159,55.2
+112,46,University of South Carolina,Columbia,SC,,10816,28528,31288,60.6
+112,46,University of St. Thomas,St. Paul,MN,34013,,,10316,86.7
+112,46,University of the Pacific,Stockton,CA,39810,,,6652,37.8
+117,45,Michigan Technological University,Houghton,MI,,13728,28608,6947,76.6
+117,45,University of San Francisco,San Francisco,CA,40294,,,10017,69.2
+119,44,University of Arizona,Tucson,AZ,,10391,27073,40223,76.9
+119,44,University of Kentucky,Lexington,KY,,10110,21192,28034,67.3
+121,43,Catholic University of America,Washington,DC,38526,,,6838,63.2
+121,43,Clarkson University,Potsdam,NY,40610,,,3604,76.1
+121,43,Colorado State University,Fort Collins,CO,,9313,25166,30647,74.7
+121,43,DePaul University,Chicago,IL,33990,,,24966,62.3
+121,43,Duquesne University,Pittsburgh,PA,31385,,,9956,74.7
+121,43,Temple University,Philadelphia,PA,,14340,24710,36744,67.2
+121,43,University of Utah,Salt Lake City,UT,,7534,24018,32388,82.6
+128,42,Missouri University of Science & Technology,Rolla,MO,,9510,24675,7647,89.6
+128,42,Polytechnic Institute of New York University,Brooklyn,NY,41328,,,4652,62.1
+128,42,Seton Hall University,South Orange,NJ,35820,,,9830,84.4
+128,42,University at Albany–​SUNY,Albany,NY,,8140,18460,17316,55.5
+128,42,University of Arkansas,Fayetteville,AR,,7818,19074,24537,63.5
+128,42,University of Illinois–​Chicago,Chicago,IL,,13406,25796,27875,63.9
+128,42,Washington State University,Pullman,WA,,12545,25889,27679,76.0
+135,41,Hofstra University,Hempstead,NY,37400,,,11023,58.7
+135,41,Kansas State University,Manhattan,KS,,8585,21530,24378,99.0
+135,41,Louisiana State University–​Baton Rouge,Baton Rouge,LA,,7873,25790,30225,76.2
+135,41,New School,New York,NY,40928,,,10575,65.0
+135,41,Ohio University,Athens,OH,,10380,19344,27402,77.7
+135,41,University of Cincinnati,Cincinnati,OH,,10784,25816,31798,67.1
+141,40,George Mason University,Fairfax,VA,,9908,28592,32961,65.8
+142,39,Arizona State University,Tempe,AZ,,10002,23654,73378,87.9
+142,39,Howard University1,Washington,DC,22683,,,,53.9
+142,39,Mississippi State University,Mississippi State,MS,,6722,16960,20365,69.3
+142,39,Oklahoma State University,Stillwater,OK,,7441,20026,25544,77.6
+142,39,Oregon State University,Corvallis,OR,,8538,23469,26393,78.8
+142,39,"Rutgers, the State University of New Jersey–​Newark",Newark,NJ,,12998,27022,12011,57.5
+142,39,St. John Fisher College,Rochester,NY,28430,,,4008,64.2
+142,39,University of Texas–​Dallas,Richardson,TX,,11806,30378,19727,52.0
+150,38,New Jersey Institute of Technology,Newark,NJ,,15140,27840,9944,63.7
+150,38,University of Mississippi,University,MS,,6760,17728,18794,61.1
+152,37,Adelphi University,Garden City,NY,30800,,,7859,66.5
+152,37,Illinois State University,Normal,IL,,12573,20013,20706,74.0
+152,37,San Diego State University,San Diego,CA,,6578,17738,31597,31.3
+152,37,St. John's University,Queens,NY,37260,,,21087,53.2
+152,37,University of Alabama–​Birmingham,Birmingham,AL,,8904,20394,17999,73.4
+152,37,University of Rhode Island,Kingston,RI,,12450,28016,16451,76.9
+158,36,University of Hawaii–​Manoa,Honolulu,HI,,9904,27472,20426,81.2
+158,36,University of Maryland–​Baltimore County,Baltimore,MD,,10068,21642,13637,60.4
+158,36,University of Massachusetts–​Lowell,Lowell,MA,,12097,19210,16294,65.8
+161,35,Maryville University of St. Louis,St Louis,MO,25002,,,4203,71.3
+161,35,Texas Tech University,Lubbock,TX,,8942,19562,32467,64.3
+161,35,University of Idaho,Moscow,ID,,6524,19600,12420,65.7
+161,35,University of La Verne,La Verne,CA,35000,,,4973,39.0
+161,35,University of Louisville,Louisville,KY,,9750,23638,21242,76.3
+161,35,University of Wyoming,Laramie,WY,,4404,14124,12903,95.7
+167,34,Florida Institute of Technology,Melbourne,FL,36020,,,5384,59.1
+167,34,University of Maine,Orono,ME,,10594,27454,10901,81.1
+167,34,Virginia Commonwealth University,Richmond,VA,,12002,28861,31752,60.2
+170,33,University of Central Florida,Orlando,FL,,6317,22415,59767,46.2
+170,33,University of South Florida,Tampa,FL,,6410,17325,40111,43.2
+170,33,West Virginia University,Morgantown,WV,,6456,19632,29707,85.1
+173,32,Azusa Pacific University,Azusa,CA,32256,,,10184,52.3
+173,32,Pace University,New York,NY,38069,,,12772,76.8
+173,32,St. Mary's University of Minnesota,Winona,MN,29315,,,5574,79.0
+173,32,University of North Dakota,Grand Forks,ND,,7254,17170,15250,73.7
+177,31,Biola University,La Mirada,CA,32142,,,6302,74.7
+177,31,Indiana University of Pennsylvania,Indiana,PA,,9080,19014,15379,61.0
+177,31,Northern Illinois UniversityDe,Kalb,IL,,12952,22024,21869,51.8
+177,31,Southern Illinois University–​Carbondale,Carbondale,IL,,12104,24970,18847,51.4
+181,30,Andrews University,Berrien Springs,MI,25470,,,3551,37.5
+181,30,Ball State University,Muncie,IN,,9250,23660,21053,61.2
+181,30,Bowling Green State University,Bowling Green,OH,,10721,18029,17286,73.6
+181,30,East Carolina University,Greenville,NC,,5869,19683,26947,62.2
+181,30,University of Alabama–​Huntsville,Huntsville,AL,,9192,21506,7636,77.7
+181,30,University of Nevada–​Reno,Reno,NV,,6154,20064,18227,83.0
+181,30,University of New Mexico,Albuquerque,NM,,7274,11568,29033,64.6
+181,30,Western Michigan University,Kalamazoo,MI,,10355,24109,24598,83.3
+181,30,Widener University,Chester,PA,38028,,,6238,65.5
+190,29,Central Michigan University,Mount Pleasant,MI,,11220,23670,27626,63.8
+190,29,Edgewood College,Madison,WI,24666,,,3064,73.2
+190,29,Immaculata University,Immaculata,PA,30740,,,4117,79.6
+190,29,Louisiana Tech University,Ruston,LA,,7146,18483,11304,70.8
+190,29,New Mexico State University,Las Cruces,NM,,6220,19644,17651,80.1
+190,29,North Dakota State University,Fargo,ND,,7233,17478,14443,83.6
+190,29,University of Colorado–​Denver,Denver,CO,,7494,21006,22396,75.9
+190,29,University of Houston,Houston,TX,,10272,20892,40747,56.2
+190,29,University of North Carolina–​Greensboro,Greensboro,NC,,6388,20186,18172,60.0
+190,29,University of South Dakota,Vermillion,SD,,8022,10104,10284,88.6
+190,29,Utah State University,Logan,UT,,6183,17886,28786,96.7
+201,28,Kent State University,Kent,OH,,9816,17776,28172,83.0
+201,28,Montana State University,Bozeman,MT,,6821,20648,14660,57.6
+201,28,South Dakota State University,Brookings,SD,,7708,9790,12583,91.7
+201,28,University of Missouri–​Kansas City,Kansas City,MO,,9456,22203,16019,67.6
+201,28,University of Montana,Missoula,MT,,6276,22470,12479,95.4
+201,28,University of North Carolina–​Charlotte,Charlotte,NC,,6105,18634,26232,68.5
