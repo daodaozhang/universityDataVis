@@ -14,11 +14,11 @@
 
 <div id="numberSelector">
 	<font face="verdana" size=4 color= "gray"><p> Filter Universities: </p></font>
-	<font face="verdana" size=4 color= #3399CC>Rank from <input type="number" id="rankLow" value=0></input> to </font><input type="number" id="rankHigh" value=201></input>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	<font face="verdana" size=4 color= #3399CC>Rank from <input type="number" id="rankLow" value=0></input> to </font><input type="number" id="rankHigh" value=201></input>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 	<font face="verdana" size=4 color= #3399CC>Tuition from <input type="number" id="tuitionLow" value=0></input> to <input type="number" id="tuitionHigh" value=49138></input>USD</font>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-  
+  </br></br>
 	<font face="verdana" size=4 color= #3399CC>Total Enrollment from <input type="number" id="enrollLow" value=0></input> to <input type="number" id="enrollHigh" value=73378></input></font>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-	<font face="verdana" size=4 color= #3399CC>Accept Rate from <input type="number" id="acceptLow" value=0></input>% to <input type="number" id="acceptHigh" value=99></input>%</font>
+	<font face="verdana" size=4 color= #3399CC>Acceptance Rate from <input type="number" id="acceptLow" value=0></input>% to <input type="number" id="acceptHigh" value=99></input>%</font>
  	&nbsp&nbsp<button id="filterSubmit">Filter</button>
 	
 </div>
@@ -133,7 +133,7 @@ var data_filter;
       if (isNaN(rhi) || isNaN(rlo) || rhi<0 || rlo<0 || rhi>206 || rlo>206) {
         alert("Input has to be a integer between 0 and 206");}
       var tlo=document.getElementById("tuitionLow").value, thi=document.getElementById("tuitionHigh").value;
-      console.log("in event listener", thi)
+      //console.log("in event listener", thi)
       if (isNaN(rhi) || isNaN(rlo) || rhi<0 || rlo<0 || rhi>49138 || rlo>49138) {
         alert("Input has to be a integer between 0 and 49138");}
       var elo=document.getElementById("enrollLow").value, ehi=document.getElementById("enrollHigh").value;
@@ -188,7 +188,7 @@ var data_filter;
       if(el.Acceptance_Rate === ""){
         el.Acceptance_Rate=0;
       }
-      console.log("in filter", tHigh);
+      //console.log("in filter", tHigh);
       var rankIn = el.Rank >= rLow && el.Rank <= rHigh;
       var tuitionIn = el.Tuition >= tLow && el.Tuition <= tHigh;
       var enrollIn = el.Total_Enrollment >= eLow && el.Total_Enrollment <= eHigh;
@@ -197,8 +197,8 @@ var data_filter;
 		}
 
 		function buildGraph(rows) {
-			var margin = {top: 90, right: 140, bottom: 20, left: 200};
-			var	width = 1200 - margin.left - margin.right;
+			var margin = {top: 90, right: 500, bottom: 20, left: 200};
+			var	width = 1700 - margin.left - margin.right;
 			var height = (rows.length * 1850 / 207) + 200 - margin.top - margin.bottom;
 
 			var dimensions = [
@@ -228,6 +228,8 @@ var data_filter;
 				type: Number
 			  }
 			];
+			
+			
 
 			var x = d3.scale.ordinal() //xaxis
 				.domain(dimensions.map(function(d) { return d.name; }))
@@ -244,10 +246,40 @@ var data_filter;
 				.attr("height", height + margin.top + margin.bottom)
 			  .append("g")
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
+			
+			summary = [
+				{v:"option",Min:"Minimum", Mean: "Average", Max:"Maximum"},
+				{v:"Score",Min:28.00, Mean: 51.23, Max:100.00},
+				{v:"State", Min: "ME", Mean:"MA", Max:"NY"},
+				{v:"Tuition", Min:4850, Mean:39553, Max:49138},
+				{v:"Enrollment", Min:2243, Mean:21035, Max:73378},
+				{v:"Acceptance(%)", Min:6.1, Mean:56.16, Max:99.0},];
+        		
+			var textBox = svg.append("rect")
+							.attr("x", width+120)
+							.attr("y", 0)
+							.attr("rx", 10)
+							.attr("ry", 10)
+							.attr("width", 280)
+							.attr("height", height)
+							.style("fill", "GhostWhite")
+							.style("stroke", "LightGray");
+			
+			//append summary
+			for (i=0;i<summary.length;i++){
+						//console.log(summary[i]["v"]);
+						svg.append("text")
+							.data(summary)
+							.attr("x", width+130)
+							.attr("y", 30+i*20)
+							.text(summary[i]["v"]+",\t"+summary[i]["Min"]+",\t"+summary[i]["Mean"]+",\t"+summary[i]["Max"])
+							.attr("font-family", "sans-serif")
+                 			.attr("font-size", "16px")
+                 			.attr("fill", "gray"); }							
+			
 			var dimension = svg.selectAll(".dimension")
 				.data(dimensions)
-			  .enter().append("g")
+			  	.enter().append("g")
 				.attr("class", "dimension")
 				.attr("transform", function(d) { return "translate(" + x(d.name) + ")"; });
 
@@ -290,9 +322,21 @@ var data_filter;
 			  var projection = svg.selectAll(".axis text,.background path,.foreground path")
 				  .on("mouseover", mouseover)
 				  .on("mouseout", mouseout);
-
+			  
+			  var numbers;
+			  
 			  function mouseover(d) {
 				svg.classed("active", true);
+				//show data
+				//console.log(d.Institution)
+				numbers=svg.append("text")
+					.attr("x", -100)
+					.attr("y", -40)
+					.text("------Institution: "+d.Institution+"------Rank: "+d.Rank+"------Tuition: "+d.Tuition+" USD------Total Enrollment: "+d.Total_Enrollement+"------Acceptance Rate: "+d.Acceptance_Rate+"%")
+					.attr("font-family", "sans-serif")
+                 	.attr("font-size", "22px")
+                 	.attr("fill", "gray");
+                 	
 				projection.classed("inactive", function(p) { return p !== d; });
 				projection.filter(function(p) { return p === d; }).each(moveToFront);
 			  }
@@ -300,6 +344,14 @@ var data_filter;
 			  function mouseout(d) {
 				svg.classed("active", false);
 				projection.classed("inactive", false);
+				
+				numbers=svg.append("text")
+					.attr("x", -100)
+					.attr("y", -40)
+					.text("------Institution: "+d.Institution+"------Rank: "+d.Rank+"------Tuition: "+d.Tuition+" USD------Total Enrollment: "+d.Total_Enrollement+"------Acceptance Rate: "+d.Acceptance_Rate+"%")
+					.attr("font-family", "sans-serif")
+                 	.attr("font-size", "22px")
+                 	.attr("fill", "white");
 			  }
 
 			  function moveToFront() {
